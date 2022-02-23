@@ -1,0 +1,18 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/FindNeg.hdl
+
+/**
+ * Find Negative: 
+ * out = 1 if in[15] = 1, 0 otherwise
+ */
+
+CHIP FindNeg {
+    IN in[16];
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    And (a=in[15], b=true, out=out);
+}
