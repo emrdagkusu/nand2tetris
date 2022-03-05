@@ -53,13 +53,13 @@ CHIP CPU {
     
     ALU (x=registerD, y=AorM, zx=instruction[11], nx=instruction[10], 
         zy=instruction[9], ny=instruction[8], f=instruction[7], 
-        no=instruction[6], out=ALUOut, out=outM, zr=zero, ng=negative);
-    Or (a=zero, b=negative, out=notPositive);
-    Not (in=notPositive, out=positive);
+        no=instruction[6], out=ALUOut, out=outM, zr=isZero, ng=isNeg);
+    Or (a=isZero, b=isNeg, out=notPos);
+    Not (in=notPos, out=pos);
 
-    And (a=instruction[0], b=positive, out=j3);
-    And (a=instruction[1], b=zero, out=j2);
-    And (a=instruction[2], b=negative, out=j1);
+    And (a=instruction[0], b=pos, out=j3);
+    And (a=instruction[1], b=isZero, out=j2);
+    And (a=instruction[2], b=isNeg, out=j1);
     Or (a=j1, b=j2, out=j12);
     Or (a=j12, b=j3, out=jump);
     Mux (a=false, b=jump, sel=instruction[15], out=loadPC);
