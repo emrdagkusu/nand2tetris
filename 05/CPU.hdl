@@ -40,28 +40,28 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
-    Mux16(a=instruction, b=ALUOut, sel=instruction[15], out=inputA);
-    Mux(a=true, b=instruction[5], sel=instruction[15], out=loadA);
-    ARegister(in=inputA, load=loadA, out=registerA, out[0..14]=addressM);
+    Mux16 (a=instruction, b=ALUOut, sel=instruction[15], out=inputA);
+    Mux (a=true, b=instruction[5], sel=instruction[15], out=loadA);
+    ARegister (in=inputA, load=loadA, out=registerA, out[0..14]=addressM);
 
-    Mux(a=false, b=instruction[4], sel=instruction[15], out=loadD);
-    DRegister(in=ALUOut, load=loadD, out=registerD);
+    Mux (a=false, b=instruction[4], sel=instruction[15], out=loadD);
+    DRegister (in=ALUOut, load=loadD, out=registerD);
 
-    Mux(a=false, b=instruction[3], sel=instruction[15], out=writeM);
+    Mux (a=false, b=instruction[3], sel=instruction[15], out=writeM);
 
-    Mux16(a=registerA, b=inM, sel=instruction[12], out=AorM);
+    Mux16 (a=registerA, b=inM, sel=instruction[12], out=AorM);
     
-    ALU(x=registerD, y=AorM, zx=instruction[11], nx=instruction[10], 
+    ALU (x=registerD, y=AorM, zx=instruction[11], nx=instruction[10], 
         zy=instruction[9], ny=instruction[8], f=instruction[7], 
         no=instruction[6], out=ALUOut, out=outM, zr=zero, ng=negative);
-    Or(a=zero, b=negative, out=notPositive);
-    Not(in=notPositive, out=positive);
+    Or (a=zero, b=negative, out=notPositive);
+    Not (in=notPositive, out=positive);
 
-    And(a=instruction[0], b=positive, out=j3);
-    And(a=instruction[1], b=zero, out=j2);
-    And(a=instruction[2], b=negative, out=j1);
+    And (a=instruction[0], b=positive, out=j3);
+    And (a=instruction[1], b=zero, out=j2);
+    And (a=instruction[2], b=negative, out=j1);
     Or (a=j1, b=j2, out=j12);
     Or (a=j12, b=j3, out=jump);
-    Mux(a=false, b=jump, sel=instruction[15], out=loadPC);
-    PC(in=registerA, load=loadPC, inc=true, reset=reset, out[0..14]=pc);
+    Mux (a=false, b=jump, sel=instruction[15], out=loadPC);
+    PC (in=registerA, load=loadPC, inc=true, reset=reset, out[0..14]=pc);
 }
