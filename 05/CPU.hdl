@@ -44,11 +44,11 @@ CHIP CPU {
     Mux (a=true, b=instruction[5], sel=instruction[15], out=loadA);
     ARegister (in=inputA, load=loadA, out=registerA, out[0..14]=addressM);
 
-    Mux (a=false, b=instruction[4], sel=instruction[15], out=loadD);
+    And (a=instruction[4], b=instruction[15], out=loadD);
     DRegister (in=ALUOut, load=loadD, out=registerD);
 
-    Mux (a=false, b=instruction[3], sel=instruction[15], out=writeM);
-
+    And (a=instruction[3], b=instruction[15], out=writeM);
+    
     Mux16 (a=registerA, b=inM, sel=instruction[12], out=AorM);
     
     ALU (x=registerD, y=AorM, zx=instruction[11], nx=instruction[10], 
@@ -62,6 +62,6 @@ CHIP CPU {
     And (a=instruction[2], b=isNeg, out=j1);
     Or (a=j1, b=j2, out=j12);
     Or (a=j12, b=j3, out=jump);
-    Mux (a=false, b=jump, sel=instruction[15], out=loadPC);
+    And (a=jump, b=instruction[15], out=loadPC);
     PC (in=registerA, load=loadPC, inc=true, reset=reset, out[0..14]=pc);
 }
