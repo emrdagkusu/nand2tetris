@@ -1,6 +1,3 @@
-from dis import Instruction
-
-
 class Parser(object):
     def __init__(self, lines):
         self.lines = lines
